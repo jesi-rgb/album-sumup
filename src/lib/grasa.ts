@@ -1,8 +1,10 @@
 import type { Song, Album, AlbumEvent } from '$lib/types/index';
+import { relativeToAbsoluteSeconds } from './utils';
+import { padding } from '../store';
 
 export const grasaAlbum: Album = {
 	songs: [
-		{ title: 'CORLEONE', duration: 148 },
+		{ title: 'CORLEONE', duration: 148, color: 'red' },
 		{ title: 'APRENDER A AMAR', duration: 99 },
 		{ title: 'REAL', duration: 179 },
 		{ title: 'LEGENDARIO', duration: 184 },
@@ -24,7 +26,35 @@ export const grasaAlbum: Album = {
 export const grasaEvents: AlbumEvent[] = [
 	{
 		title: 'PERRA',
-		start: 193,
-		end: 194
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 2,
+			secondsIntoSong: 43,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 2,
+			secondsIntoSong: 44,
+			padding: padding
+		}),
+		category: 'perra'
+	},
+
+	{
+		title: 'PERRA',
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 6,
+			secondsIntoSong: 3,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 6,
+			secondsIntoSong: 4,
+			padding: padding
+		}),
+		category: 'perra'
 	}
 ];

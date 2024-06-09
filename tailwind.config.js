@@ -2,62 +2,54 @@ import { fontFamily } from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-	darkMode: ['class'],
 	content: ['./src/**/*.{html,js,svelte,ts}'],
-	safelist: ['dark'],
 	theme: {
-		container: {
-			center: true,
-			padding: '2rem',
-			screens: {
-				'2xl': '1400px'
-			}
-		},
-		extend: {
-			colors: {
-				border: 'hsl(var(--border) / <alpha-value>)',
-				input: 'hsl(var(--input) / <alpha-value>)',
-				ring: 'hsl(var(--ring) / <alpha-value>)',
-				background: 'hsl(var(--background) / <alpha-value>)',
-				foreground: 'hsl(var(--foreground) / <alpha-value>)',
-				primary: {
-					DEFAULT: 'hsl(var(--primary) / <alpha-value>)',
-					foreground: 'hsl(var(--primary-foreground) / <alpha-value>)'
-				},
-				secondary: {
-					DEFAULT: 'hsl(var(--secondary) / <alpha-value>)',
-					foreground: 'hsl(var(--secondary-foreground) / <alpha-value>)'
-				},
-				destructive: {
-					DEFAULT: 'hsl(var(--destructive) / <alpha-value>)',
-					foreground: 'hsl(var(--destructive-foreground) / <alpha-value>)'
-				},
-				muted: {
-					DEFAULT: 'hsl(var(--muted) / <alpha-value>)',
-					foreground: 'hsl(var(--muted-foreground) / <alpha-value>)'
-				},
-				accent: {
-					DEFAULT: 'hsl(var(--accent) / <alpha-value>)',
-					foreground: 'hsl(var(--accent-foreground) / <alpha-value>)'
-				},
-				popover: {
-					DEFAULT: 'hsl(var(--popover) / <alpha-value>)',
-					foreground: 'hsl(var(--popover-foreground) / <alpha-value>)'
-				},
-				card: {
-					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
-					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
+		fontFamily: {
+			sans: ['Bricolage Grotesque', ...fontFamily.sans]
+		}
+	},
+
+	plugins: [require('daisyui')],
+	daisyui: {
+		themes: [
+			{
+				light: {
+					primary: '#226E48',
+					'primary-focus': '#042B24',
+					'primary-content': '#F6FFFB',
+					secondary: '#a78bfa',
+					accent: '#D1BC03',
+					neutral: '#677471',
+					'base-100': '#F6FFFB',
+					'base-200': '#FAFFFD',
+					'base-300': '#E5FDF2',
+					'base-content': '#042B24',
+					info: '#3abff8',
+					success: '#4ade80',
+					warning: '#fbbd23',
+					error: '#f87272'
 				}
 			},
-			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+			{
+				dark: {
+					primary: '#a7f3d0',
+					'primary-focus': '#73E0B4',
+					'primary-content': '#021714',
+					secondary: '#a78bfa',
+					accent: '#fef9c3',
+					neutral: '#677471',
+					'base-100': '#021713',
+					'base-200': '#001410',
+					'base-300': '#010D0B',
+					'base-content': '#fff',
+					info: '#3abff8',
+					success: '#4ade80',
+					warning: '#fbbd23',
+					error: '#f87272'
+				}
 			},
-			fontFamily: {
-				sans: ['Bricolage Grotesque', ...fontFamily.sans]
-			}
-		}
+			'cupcake'
+		]
 	}
 };
 
