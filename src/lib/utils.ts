@@ -5,23 +5,41 @@ export function mapSongsDuration(album: Album, padding: number = 0) {
 	// we want to return a new array of the different moments
 	// each song starts and end so we can plot it in a rect
 	//
-	let { songs } = album;
+	let { songs, duration: albumDuration } = album;
 	let durations = [];
-	let currDuration = padding / 2;
+	let currDuration = 0;
 
 	for (let i = 0; i < songs.length; i++) {
 		const currSong = songs[i];
+		const relativeDuration = currSong.duration / albumDuration;
 
-		const currStartEnd = {
-			start: currDuration,
-			end: currDuration + currSong.duration - padding / 2
-		};
+		let currStartEnd;
+		switch (i) {
+			case 0:
+				currStartEnd = {
+					start: 0,
+					end: currDuration + relativeDuration - padding / 2
+				};
+				break;
+			case songs.length - 1:
+				currStartEnd = {
+					start: currDuration + padding / 2,
+					end: currDuration + relativeDuration
+				};
+				break;
+			default:
+				currStartEnd = {
+					start: currDuration + padding / 2,
+					end: currDuration + relativeDuration - padding / 2
+				};
+		}
 
 		durations.push(currStartEnd);
 
-		currDuration += currSong.duration + padding / 2;
+		currDuration += relativeDuration;
 	}
 
+	console.log(durations);
 	return durations;
 }
 
@@ -57,9 +75,8 @@ export function relativeToAbsoluteSeconds({
 
 	let shiftToSong = 0;
 	for (let i = 0; i < songIndex - 1; i++) {
-		shiftToSong += songs[i].duration + padding;
+		shiftToSong += songs[i].duration + padding / 2;
 	}
 
-	console.log(shiftToSong + secondsIntoSong);
 	return shiftToSong + secondsIntoSong;
 }

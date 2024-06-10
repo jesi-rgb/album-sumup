@@ -22,15 +22,15 @@
 </script>
 
 <div bind:clientWidth={width}>
-	<svg {width} {height} class="border border-primary rounded-xl w-full">
+	<svg {width} {height} class="border-2 border-primary/20 rounded-xl w-full">
 		<g id="songs">
 			{#each songs as song, i}
 				<rect
 					id={song.title}
-					x="{(durations[i].start / duration) * 100}%"
+					x="{durations[i].start * 100}%"
 					y={height / 2 - songHeight / 2}
 					height={songHeight}
-					width="{((durations[i].end - durations[i].start) / duration) * 100}%"
+					width="{(durations[i].end - durations[i].start) * 100}%"
 					class="hover:h-[20px] hover:-translate-y-[5px] hover:fill-secondary fill-primary transition-all"
 					on:mouseover={() => {
 						hoveredSong = song;
