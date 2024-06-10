@@ -40,7 +40,6 @@ export const grasaEvents: AlbumEvent[] = [
 		}),
 		category: 'perra'
 	},
-
 	{
 		title: 'PERRA',
 		start: relativeToAbsoluteSeconds({
@@ -53,6 +52,23 @@ export const grasaEvents: AlbumEvent[] = [
 			album: grasaAlbum,
 			songIndex: 6,
 			secondsIntoSong: 4,
+			padding: padding
+		}),
+		category: 'perra'
+	},
+
+	{
+		title: 'PERRA',
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 95,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 96,
 			padding: padding
 		}),
 		category: 'perra'
