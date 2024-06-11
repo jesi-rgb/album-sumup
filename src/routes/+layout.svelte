@@ -2,7 +2,7 @@
 	import '../app.css';
 </script>
 
-<main class=" mx-auto w-[95%] xl:w-[90%] max-w-5xl opsz-sm">
+<main class=" mx-auto w-[95%] xl:w-[90%] max-w-5xl opsz-sm my-20">
 	<slot />
 </main>
 
