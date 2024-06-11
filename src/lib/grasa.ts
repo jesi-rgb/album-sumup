@@ -72,5 +72,54 @@ export const grasaEvents: AlbumEvent[] = [
 			padding: padding
 		}),
 		category: 'perra'
+	},
+	{
+		title: '7 pastillas para ir a dormir',
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 10,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 12,
+			padding: padding
+		}),
+		category: 'medicinas'
+	},
+	{
+		title: 'cartera llena de Clorazepam',
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 94,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 96,
+			padding: padding
+		}),
+		category: 'medicinas'
+	},
+
+	{
+		title: 'cartera llena de Clorazepam',
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 94,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 4,
+			secondsIntoSong: 96,
+			padding: padding
+		}),
+		category: 'medicinas'
 	}
 ];
