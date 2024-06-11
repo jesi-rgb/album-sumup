@@ -1,6 +1,8 @@
 export type AlbumEvent = {
 	start: number;
 	end: number;
+	songIndex: number;
+	secondsIntoSong: number;
 	title: string;
 	notes?: string;
 	category?: string;

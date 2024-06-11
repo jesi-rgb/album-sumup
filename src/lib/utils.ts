@@ -1,5 +1,8 @@
 import type { Album } from './types';
 
+export const groupBy = (x: any, f: any) =>
+	x.reduce((a: any, b: any, i: any) => ((a[f(b, i, x)] ||= []).push(b), a), {});
+
 export function mapSongsDuration(album: Album, padding: number = 0) {
 	// album is a list of songs
 	// we want to return a new array of the different moments
@@ -12,25 +15,28 @@ export function mapSongsDuration(album: Album, padding: number = 0) {
 	for (let i = 0; i < songs.length; i++) {
 		const currSong = songs[i];
 		const relativeDuration = currSong.duration / albumDuration;
+		const relativePadding = padding / albumDuration;
+
+		console.log(relativeDuration);
 
 		let currStartEnd;
 		switch (i) {
 			case 0:
 				currStartEnd = {
 					start: 0,
-					end: currDuration + relativeDuration - padding / 2
+					end: currDuration + relativeDuration - relativePadding / 2
 				};
 				break;
 			case songs.length - 1:
 				currStartEnd = {
-					start: currDuration + padding / 2,
+					start: currDuration + relativePadding / 2,
 					end: currDuration + relativeDuration
 				};
 				break;
 			default:
 				currStartEnd = {
-					start: currDuration + padding / 2,
-					end: currDuration + relativeDuration - padding / 2
+					start: currDuration + relativePadding / 2,
+					end: currDuration + relativeDuration - relativePadding / 2
 				};
 		}
 
@@ -48,7 +54,7 @@ export function secondsDisplay(duration: number) {
 	const seconds = Math.floor(duration % 60);
 	const minText = minutes == 1 ? 'minute' : 'minutes';
 	const secText = seconds == 1 ? 'second' : 'seconds';
-	return `${minutes} ${minText} and ${seconds} seconds`;
+	return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
 /**
@@ -74,8 +80,9 @@ export function relativeToAbsoluteSeconds({
 		);
 
 	let shiftToSong = 0;
+	let relativePadding = padding / album.duration;
 	for (let i = 0; i < songIndex - 1; i++) {
-		shiftToSong += songs[i].duration + padding / 2;
+		shiftToSong += songs[i].duration + relativePadding / 2;
 	}
 
 	return shiftToSong + secondsIntoSong;

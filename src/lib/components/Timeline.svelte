@@ -9,9 +9,11 @@
 
 	const { duration, songs } = grasaAlbum;
 
-	import { mapSongsDuration, secondsDisplay, relativeToAbsoluteSeconds } from '$lib/utils';
+	import { mapSongsDuration, secondsDisplay, groupBy } from '$lib/utils';
 
 	const durations = mapSongsDuration(grasaAlbum, padding);
+
+	const categories = groupBy(grasaEvents, (g: AlbumEvent) => g.category);
 
 	let width = 200,
 		height = 200;
@@ -20,6 +22,18 @@
 
 	let hoveredSong: Song | null = null;
 	let hoveredEvent: AlbumEvent | null = null;
+
+	let selectedCategory: string | null;
+
+	grasaEvents.map((e) => {
+		if (e.end - e.start <= 2) {
+			e.end += 3;
+		}
+	});
+
+	$: displayEvents = grasaEvents.filter(
+		(e) => e.category == selectedCategory || selectedCategory == null
+	);
 </script>
 
 <div bind:clientWidth={width}>
@@ -57,14 +71,14 @@
 		</g>
 
 		<g id="events">
-			{#each grasaEvents as event}
+			{#each displayEvents as event}
 				<rect
 					id={event.title}
 					x="{(event.start / duration) * 100}%"
 					y={height / 2.3 - songHeight / 2}
 					height={songHeight}
 					width="{((event.end - event.start) / duration) * 100}%"
-					class="hover:h-[20px] hover:-translate-y-[5px] hover:fill-secondary fill-primary transition-all"
+					class="hover:h-[20px] hover:-translate-y-[5px] fill-accent transition-all"
 					on:mouseover={() => {
 						hoveredEvent = event;
 					}}
@@ -78,22 +92,47 @@
 </div>
 
 <!-- event categories -->
-<section>
-	{#each grasaEvents as event}
-		<li>{event.category}</li>
-	{/each}
+<section class="gap-5 flex my-10">
+	<div class="join">
+		{#each Object.keys(categories) as category}
+			<button
+				class:categorySelected={category == selectedCategory}
+				on:click={() => {
+					if (selectedCategory == category) selectedCategory = null;
+					else if (selectedCategory == null || selectedCategory != category)
+						selectedCategory = category;
+				}}
+				class="join-item btn btn-outline cursor-pointer">{category}</button
+			>
+		{/each}
+	</div>
+</section>
+
+<section class="mt-20 flex flex-col gap-5">
+	{#if selectedCategory}
+		{#each displayEvents as event}
+			<div>
+				<div>
+					{event.title}
+				</div>
+
+				<div class="opacity-70 ml-3">
+					Song {event.songIndex}: {grasaAlbum.songs[event.songIndex - 1].title} • {secondsDisplay(
+						event.secondsIntoSong
+					)}
+				</div>
+			</div>
+		{/each}
+	{/if}
 </section>
 
 <section class="mt-20">
 	{#if hoveredSong}
 		<div>
-			<div
-				in:fly={{ duration: 150, x: -20 }}
-				class="font-bold text-xl [font-variation-settings: 'opsz' 30]"
-			>
+			<div in:fly={{ duration: 150, x: -20 }} class="font-bold text-xl">
 				{hoveredSong.title}
 			</div>
-			<div class="text-primary">
+			<div class="text-primary tabular-nums">
 				{secondsDisplay(hoveredSong.duration)}
 			</div>
 		</div>
@@ -102,11 +141,18 @@
 
 <section class="mt-20">
 	{#if hoveredEvent}
-		<div class="font-bold text-xl [font-variation-settings: 'opsz' 30]">
+		<div class="font-bold text-xl">
 			{hoveredEvent.title}
 		</div>
-		<div class="text-primary">
-			{hoveredEvent.category}
+		<div>
+			<span class="opacity-70">Category:</span>
+			<span class="font-semibold">{hoveredEvent.category}</span>
+		</div>
+		<div>
+			<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
+			{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} • {secondsDisplay(
+				hoveredEvent.secondsIntoSong
+			)}
 		</div>
 	{/if}
 </section>
@@ -120,8 +166,15 @@
 			skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
 			scaleY(var(--tw-scale-y));
 		height: 20px;
+
 		transition-property: all;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: 150ms;
+	}
+	.categorySelected {
+		border-color: currentColor;
+		--tw-border-opacity: 0.5;
+		background-color: var(--fallback-p, oklch(var(--p) / 1));
+		color: var(--fallback-pc, oklch(var(--pc) / 1));
 	}
 </style>
