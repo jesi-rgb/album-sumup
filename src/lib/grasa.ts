@@ -263,5 +263,41 @@ export const grasaEvents: AlbumEvent[] = [
 			padding: padding
 		}),
 		category: 'guns'
+	},
+	{
+		title: '"quieren mi grasa"',
+		songIndex: 9,
+		secondsIntoSong: 91,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 91,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 91,
+			padding: padding
+		}),
+		category: 'grasa'
+	},
+	{
+		title: '"grasa!"',
+		songIndex: 9,
+		secondsIntoSong: 114,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 114,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 114,
+			padding: padding
+		}),
+		category: 'grasa'
 	}
 ];

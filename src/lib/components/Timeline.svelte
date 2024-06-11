@@ -1,5 +1,11 @@
 <!-- svelte-ignore a11y_mouse_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 
 <script lang="ts">
 	import { fly } from 'svelte/transition';
@@ -40,6 +46,9 @@
 		return songs[e.songIndex - 1].title == hoveredSong?.title;
 	});
 </script>
+
+<h1 class="text-center font-bold text-3xl mb-3">NATHY PELUSO — GRASA</h1>
+<h2 class="text-center text-xl opacity-70 mb-3">2024 — 42 min 43 s</h2>
 
 <div bind:clientWidth={width}>
 	<svg
@@ -103,7 +112,7 @@
 
 <!-- event categories -->
 <section class="gap-5 flex my-10">
-	<div class="join">
+	<div class="join overflow-x-scroll">
 		{#each Object.keys(categories) as category}
 			<button
 				class:categorySelected={category == selectedCategory}
@@ -201,6 +210,8 @@
 		</div>
 	{/if}
 </section>
+
+<section class="h-[200px] opacity-0 md:hidden">asdf</section>
 
 <style>
 	.selected {
