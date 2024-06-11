@@ -17,6 +17,7 @@ export type EventGroup = {
 export type Song = {
 	duration: number;
 	title: string;
+	artist: string;
 	color?: string;
 };
 

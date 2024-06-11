@@ -8,16 +8,16 @@ export function mapSongsDuration(album: Album, padding: number = 0) {
 	// we want to return a new array of the different moments
 	// each song starts and end so we can plot it in a rect
 	//
-	let { songs, duration: albumDuration } = album;
+	let { songs } = album;
 	let durations = [];
 	let currDuration = 0;
+
+	const albumDuration = songs.reduce((a, b) => a + b.duration, 0);
 
 	for (let i = 0; i < songs.length; i++) {
 		const currSong = songs[i];
 		const relativeDuration = currSong.duration / albumDuration;
 		const relativePadding = padding / albumDuration;
-
-		console.log(relativeDuration);
 
 		let currStartEnd;
 		switch (i) {
@@ -45,7 +45,6 @@ export function mapSongsDuration(album: Album, padding: number = 0) {
 		currDuration += relativeDuration;
 	}
 
-	console.log(durations);
 	return durations;
 }
 

@@ -1,5 +1,6 @@
 <!-- svelte-ignore a11y_mouse_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
+
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { grasaAlbum, grasaEvents } from '$lib/grasa';
@@ -34,10 +35,21 @@
 	$: displayEvents = grasaEvents.filter(
 		(e) => e.category == selectedCategory || selectedCategory == null
 	);
+
+	$: hoveredSongEvents = grasaEvents.filter((e) => {
+		return songs[e.songIndex - 1].title == hoveredSong?.title;
+	});
 </script>
 
 <div bind:clientWidth={width}>
-	<svg {width} {height} class="border-2 border-primary/20 rounded-xl w-full">
+	<svg
+		{width}
+		{height}
+		on:mouseleave={() => {
+			hoveredSong = null;
+		}}
+		class="border-2 border-primary/20 rounded-xl w-full"
+	>
 		<g id="songs">
 			{#each songs as song, i}
 				<!-- invisible -->
@@ -51,9 +63,6 @@
 					width="{(durations[i].end - durations[i].start) * 100}%"
 					on:mouseover={() => {
 						hoveredSong = song;
-					}}
-					on:mouseleave={() => {
-						hoveredSong = null;
 					}}
 				/>
 
@@ -79,6 +88,7 @@
 					height={songHeight}
 					width="{((event.end - event.start) / duration) * 100}%"
 					class="hover:h-[20px] hover:-translate-y-[5px] fill-accent transition-all"
+					class:eventHovered={hoveredEvent == event}
 					on:mouseover={() => {
 						hoveredEvent = event;
 					}}
@@ -108,56 +118,90 @@
 	</div>
 </section>
 
-<section class="mt-20 flex flex-col gap-5">
-	{#if selectedCategory}
-		{#each displayEvents as event}
-			<div>
-				<div>
-					{event.title}
+{#if selectedCategory}
+	<section class="mt-20">
+		<h2 class="font-semibold text-xl mb-5">
+			<span class="opacity-70">Highlights in relation to</span>
+			<span>{selectedCategory}</span>
+		</h2>
+		<div transition:fly={{ duration: 120, x: -20 }} class="flex flex-col gap-5">
+			{#each displayEvents as event, i}
+				<div class="flex flex-row gap-2 hover:cursor-help">
+					<span class="opacity-70 tabular-nums">{i + 1}.</span>
+					<div
+						on:mouseenter={() => {
+							hoveredEvent = event;
+						}}
+						on:mouseleave={() => {
+							hoveredEvent = null;
+						}}
+					>
+						<div class="">
+							{event.title}
+						</div>
+					</div>
 				</div>
+			{/each}
+		</div>
+	</section>
+{/if}
 
-				<div class="opacity-70 ml-3">
-					Song {event.songIndex}: {grasaAlbum.songs[event.songIndex - 1].title} • {secondsDisplay(
-						event.secondsIntoSong
-					)}
-				</div>
-			</div>
-		{/each}
-	{/if}
-</section>
-
-<section class="mt-20">
+<section class="mt-10">
 	{#if hoveredSong}
 		<div>
 			<div in:fly={{ duration: 150, x: -20 }} class="font-bold text-xl">
 				{hoveredSong.title}
 			</div>
-			<div class="text-primary tabular-nums">
-				{secondsDisplay(hoveredSong.duration)}
+			<div class="">
+				<span class="text-primary tabular-nums">{secondsDisplay(hoveredSong.duration)}</span> •
+				<span class="opacity-70">
+					{hoveredSong.artist}
+				</span>
 			</div>
 		</div>
 	{/if}
 </section>
 
-<section class="mt-20">
+{#if hoveredSong && hoveredSongEvents.length > 0}
+	<section class="mt-10">
+		<h2 class="font-semibold opacity-70 text-xl mb-5">Highlights of the song</h2>
+		{#each hoveredSongEvents as event, i}
+			<div class="flex flex-row gap-2 hover:cursor-help">
+				<span class="opacity-70 tabular-nums">{i + 1}.</span>
+				<div
+					on:mouseenter={() => {
+						hoveredEvent = event;
+					}}
+					on:mouseleave={() => {
+						hoveredEvent = null;
+					}}
+				>
+					<div class="">
+						{event.title}
+					</div>
+				</div>
+			</div>
+		{/each}
+	</section>
+{/if}
+
+<section class="mt-10">
 	{#if hoveredEvent}
-		<div class="font-bold text-xl">
-			{hoveredEvent.title}
-		</div>
-		<div>
-			<span class="opacity-70">Category:</span>
-			<span class="font-semibold">{hoveredEvent.category}</span>
-		</div>
-		<div>
-			<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
-			{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} • {secondsDisplay(
-				hoveredEvent.secondsIntoSong
-			)}
+		<h2 class="font-semibold text-xl opacity-70 mb-5">Event Details</h2>
+		<div class="flex flex-col gap-2">
+			<div class="font-bold text-xl">
+				{hoveredEvent.title}
+			</div>
+			<div>
+				<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
+				{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} •
+				<span class="text-primary">{secondsDisplay(hoveredEvent.secondsIntoSong)}</span>
+			</div>
+			<div class="badge badge-outline">{hoveredEvent.category}</div>
 		</div>
 	{/if}
 </section>
 
-<!-- hover:h-[20px] hover:-translate-y-[5px] hover:fill-secondary fill-primary transition-all -->
 <style>
 	.selected {
 		fill: var(--fallback-s, oklch(var(--s) / 1));
@@ -176,5 +220,24 @@
 		--tw-border-opacity: 0.5;
 		background-color: var(--fallback-p, oklch(var(--p) / 1));
 		color: var(--fallback-pc, oklch(var(--pc) / 1));
+	}
+
+	.eventHovered {
+		height: 20px;
+		min-width: 20px;
+		width: 20px;
+
+		--tw-translate-y: -5px;
+		--tw-translate-x: -5px;
+
+		transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+			skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+			scaleY(var(--tw-scale-y));
+
+		fill: var(--fallback-a, oklch(var(--a) / 1));
+
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 150ms;
 	}
 </style>

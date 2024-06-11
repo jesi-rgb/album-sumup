@@ -4,22 +4,22 @@ import { padding } from '../store';
 
 export const grasaAlbum: Album = {
 	songs: [
-		{ title: 'CORLEONE', duration: 148, color: 'red' },
-		{ title: 'APRENDER A AMAR', duration: 99 },
-		{ title: 'REAL', duration: 179 },
-		{ title: 'LEGENDARIO', duration: 184 },
-		{ title: 'ESCALERAS DE METAL', duration: 107 },
-		{ title: 'TODO ROTO', duration: 187 },
-		{ title: 'NO LES CREO NADA - SKIT', duration: 18 },
-		{ title: 'ENVIDIA', duration: 155 },
-		{ title: 'MENINA', duration: 128 },
-		{ title: 'IDEAS RADICALES', duration: 180 },
-		{ title: 'MANHATTAN', duration: 192 },
-		{ title: 'EL DÍA QUE PERDÍ MI JUVENTUD', duration: 168 },
-		{ title: 'LA PRESA', duration: 216 },
-		{ title: 'LA MENTIRA', duration: 194 },
-		{ title: 'REMEDIO', duration: 195 },
-		{ title: 'MAMÁ', duration: 207 }
+		{ title: 'CORLEONE', artist: 'NATHY PELUSO', duration: 148, color: 'red' },
+		{ title: 'APRENDER A AMAR', artist: 'NATHY PELUSO', duration: 99 },
+		{ title: 'REAL', artist: 'NATHY PELUSO', duration: 179 },
+		{ title: 'LEGENDARIO', artist: 'NATHY PELUSO', duration: 184 },
+		{ title: 'ESCALERAS DE METAL', artist: 'NATHY PELUSO', duration: 107 },
+		{ title: 'TODO ROTO', artist: 'NATHY PELUSO, Paco Amoroso, CA7RIEL', duration: 187 },
+		{ title: 'NO LES CREO NADA - SKIT', artist: 'NATHY PELUSO, C. Tangana', duration: 18 },
+		{ title: 'ENVIDIA', artist: 'NATHY PELUSO', duration: 155 },
+		{ title: 'MENINA', artist: 'NATHY PELUSO, Lua de Santana', duration: 128 },
+		{ title: 'IDEAS RADICALES', artist: 'NATHY PELUSO', duration: 180 },
+		{ title: 'MANHATTAN', artist: 'NATHY PELUSO', duration: 192 },
+		{ title: 'EL DÍA QUE PERDÍ MI JUVENTUD', artist: 'NATHY PELUSO, Blood Orange', duration: 168 },
+		{ title: 'LA PRESA', artist: 'NATHY PELUSO', duration: 216 },
+		{ title: 'LA MENTIRA', artist: 'NATHY PELUSO', duration: 194 },
+		{ title: 'REMEDIO', artist: 'NATHY PELUSO', duration: 195 },
+		{ title: 'MAMÁ', artist: 'NATHY PELUSO', duration: 207 }
 	],
 	duration: 2563
 };
@@ -174,9 +174,8 @@ export const grasaEvents: AlbumEvent[] = [
 		}),
 		category: 'swords, blades, knifes'
 	},
-
 	{
-		title: 'tampoco con el puñal',
+		title: '"tampoco con el puñal"',
 		songIndex: 13,
 		secondsIntoSong: 65,
 		start: relativeToAbsoluteSeconds({
@@ -193,7 +192,24 @@ export const grasaEvents: AlbumEvent[] = [
 		}),
 		category: 'swords, blades, knifes'
 	},
-
+	{
+		title: '"la espada del malo"',
+		songIndex: 9,
+		secondsIntoSong: 123,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 123,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 9,
+			secondsIntoSong: 124,
+			padding: padding
+		}),
+		category: 'swords, blades, knifes'
+	},
 	{
 		title: 'automatic shotgun shots',
 		songIndex: 3,
@@ -210,7 +226,7 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 25,
 			padding: padding
 		}),
-		category: 'shots SFX'
+		category: 'guns'
 	},
 	{
 		title: 'automatic shotgun shots',
@@ -228,6 +244,24 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 86,
 			padding: padding
 		}),
-		category: 'shots SFX'
+		category: 'guns'
+	},
+	{
+		title: '"con la pistola"',
+		songIndex: 13,
+		secondsIntoSong: 59,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 13,
+			secondsIntoSong: 59,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 13,
+			secondsIntoSong: 61,
+			padding: padding
+		}),
+		category: 'guns'
 	}
 ];
