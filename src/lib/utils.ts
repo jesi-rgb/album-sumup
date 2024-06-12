@@ -13,11 +13,11 @@ export function mapSongsDuration(album: Album, padding: number = 0) {
 	let currDuration = 0;
 
 	const albumDuration = songs.reduce((a, b) => a + b.duration, 0);
+	const relativePadding = padding / albumDuration;
 
 	for (let i = 0; i < songs.length; i++) {
 		const currSong = songs[i];
 		const relativeDuration = currSong.duration / albumDuration;
-		const relativePadding = padding / albumDuration;
 
 		let currStartEnd;
 		switch (i) {
@@ -73,15 +73,11 @@ export function relativeToAbsoluteSeconds({
 	padding: number;
 }) {
 	const { songs } = album;
-	if (songIndex >= songs.length)
-		throw RangeError(
-			'The song index for the event cannot be greater or equal than the album length'
-		);
 
 	let shiftToSong = 0;
 	let relativePadding = padding / album.duration;
 	for (let i = 0; i < songIndex - 1; i++) {
-		shiftToSong += songs[i].duration + relativePadding / 2;
+		shiftToSong += songs[i].duration + relativePadding * 2;
 	}
 
 	return shiftToSong + secondsIntoSong;

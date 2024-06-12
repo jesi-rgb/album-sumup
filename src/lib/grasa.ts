@@ -26,7 +26,7 @@ export const grasaAlbum: Album = {
 
 export const grasaEvents: AlbumEvent[] = [
 	{
-		title: 'PERRA?',
+		title: '"PERRA?"',
 
 		songIndex: 2,
 		secondsIntoSong: 43,
@@ -45,7 +45,7 @@ export const grasaEvents: AlbumEvent[] = [
 		category: 'perra'
 	},
 	{
-		title: 'Levántate, perra',
+		title: '"Levántate, perra"',
 
 		songIndex: 6,
 		secondsIntoSong: 3,
@@ -65,7 +65,7 @@ export const grasaEvents: AlbumEvent[] = [
 	},
 
 	{
-		title: 'PERRA!',
+		title: '"PERRA!"',
 
 		songIndex: 9,
 		secondsIntoSong: 94,
@@ -84,7 +84,7 @@ export const grasaEvents: AlbumEvent[] = [
 		category: 'perra'
 	},
 	{
-		title: '7 pastillas para ir a dormir',
+		title: '"7 pastillas para ir a dormir"',
 		songIndex: 4,
 		secondsIntoSong: 10,
 		start: relativeToAbsoluteSeconds({
@@ -102,7 +102,7 @@ export const grasaEvents: AlbumEvent[] = [
 		category: 'medicinas'
 	},
 	{
-		title: 'cartera llena de Clorazepam',
+		title: '"cartera llena de Clorazepam"',
 		songIndex: 15,
 		secondsIntoSong: 94,
 		start: relativeToAbsoluteSeconds({
@@ -120,7 +120,7 @@ export const grasaEvents: AlbumEvent[] = [
 		category: 'medicinas'
 	},
 	{
-		title: 'pero tengo Espidifen',
+		title: '"pero tengo Espidifen"',
 		songIndex: 14,
 		secondsIntoSong: 104,
 		start: relativeToAbsoluteSeconds({
@@ -153,11 +153,11 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 31,
 			padding: padding
 		}),
-		category: 'swords, blades, knifes'
+		category: 'swords, blades, knives'
 	},
 
 	{
-		title: 'la hoja del cuchillo',
+		title: '"la hoja del cuchillo"',
 		songIndex: 5,
 		secondsIntoSong: 43,
 		start: relativeToAbsoluteSeconds({
@@ -172,7 +172,7 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 44,
 			padding: padding
 		}),
-		category: 'swords, blades, knifes'
+		category: 'swords, blades, knives'
 	},
 	{
 		title: '"tampoco con el puñal"',
@@ -190,7 +190,7 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 65,
 			padding: padding
 		}),
-		category: 'swords, blades, knifes'
+		category: 'swords, blades, knives'
 	},
 	{
 		title: '"la espada del malo"',
@@ -208,7 +208,7 @@ export const grasaEvents: AlbumEvent[] = [
 			secondsIntoSong: 124,
 			padding: padding
 		}),
-		category: 'swords, blades, knifes'
+		category: 'swords, blades, knives'
 	},
 	{
 		title: 'automatic shotgun shots',
@@ -223,6 +223,24 @@ export const grasaEvents: AlbumEvent[] = [
 		end: relativeToAbsoluteSeconds({
 			album: grasaAlbum,
 			songIndex: 3,
+			secondsIntoSong: 25,
+			padding: padding
+		}),
+		category: 'guns'
+	},
+	{
+		title: '"me dispara duro con la metralleta"',
+		songIndex: 14,
+		secondsIntoSong: 25,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 14,
+			secondsIntoSong: 25,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 14,
 			secondsIntoSong: 25,
 			padding: padding
 		}),
@@ -265,6 +283,24 @@ export const grasaEvents: AlbumEvent[] = [
 		category: 'guns'
 	},
 	{
+		title: 'automatic shotgun shots',
+		songIndex: 3,
+		secondsIntoSong: 174,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 3,
+			secondsIntoSong: 174,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 3,
+			secondsIntoSong: 175,
+			padding: padding
+		}),
+		category: 'guns'
+	},
+	{
 		title: '"quieren mi grasa"',
 		songIndex: 9,
 		secondsIntoSong: 91,
@@ -299,5 +335,78 @@ export const grasaEvents: AlbumEvent[] = [
 			padding: padding
 		}),
 		category: 'grasa'
+	},
+	{
+		title: 'fretless bass fill',
+		songIndex: 16,
+		secondsIntoSong: 85,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 16,
+			secondsIntoSong: 85,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 16,
+			secondsIntoSong: 89,
+			padding: padding
+		}),
+		category: 'cool instruments'
+	},
+
+	{
+		title: 'fretless bass fill',
+		songIndex: 16,
+		secondsIntoSong: 132,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 16,
+			secondsIntoSong: 132,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 16,
+			secondsIntoSong: 132,
+			padding: padding
+		}),
+		category: 'cool instruments'
+	},
+	{
+		title: 'wurlitzer outro',
+		songIndex: 10,
+		secondsIntoSong: 170,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 10,
+			secondsIntoSong: 170,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 10,
+			secondsIntoSong: 180,
+			padding: padding
+		}),
+		category: 'cool instruments'
+	},
+	{
+		title: 'talkbox intro',
+		songIndex: 15,
+		secondsIntoSong: 1,
+		start: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 15,
+			secondsIntoSong: 1,
+			padding: padding
+		}),
+		end: relativeToAbsoluteSeconds({
+			album: grasaAlbum,
+			songIndex: 15,
+			secondsIntoSong: 9,
+			padding: padding
+		}),
+		category: 'cool instruments'
 	}
 ];

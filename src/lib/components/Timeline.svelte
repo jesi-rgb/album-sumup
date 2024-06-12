@@ -16,7 +16,7 @@
 
 	const { duration, songs } = grasaAlbum;
 
-	import { mapSongsDuration, secondsDisplay, groupBy } from '$lib/utils';
+	import { mapSongsDuration, secondsDisplay, groupBy, relativeToAbsoluteSeconds } from '$lib/utils';
 
 	const durations = mapSongsDuration(grasaAlbum, padding);
 
@@ -32,11 +32,31 @@
 
 	let selectedCategory: string | null;
 
-	grasaEvents.map((e) => {
-		if (e.end - e.start <= 2) {
-			e.end += 3;
-		}
-	});
+	//sort the events based on when they happen
+	//and make those events that last for less than
+	//a second a bit longer for easier reachability
+	grasaEvents
+		.sort((a, b) => {
+			return (
+				relativeToAbsoluteSeconds({
+					album: grasaAlbum,
+					secondsIntoSong: a.secondsIntoSong,
+					songIndex: a.songIndex,
+					padding: padding
+				}) -
+				relativeToAbsoluteSeconds({
+					album: grasaAlbum,
+					secondsIntoSong: b.secondsIntoSong,
+					songIndex: b.songIndex,
+					padding: padding
+				})
+			);
+		})
+		.map((e) => {
+			if (e.end - e.start <= 2) {
+				e.end += 3;
+			}
+		});
 
 	$: displayEvents = grasaEvents.filter(
 		(e) => e.category == selectedCategory || selectedCategory == null
@@ -47,10 +67,13 @@
 	});
 </script>
 
-<h1 class="text-center font-bold text-3xl mb-3">NATHY PELUSO — GRASA</h1>
-<h2 class="text-center text-xl opacity-70 mb-3">2024 — 42 min 43 s</h2>
+<section class="flex flex-col gap-3">
+	<h1 class="text-center font-extrabold tracking-tight text-3xl">GRASA</h1>
+	<h2 class="text-center font-semibold text-xl opacity-90">Nathy Peluso</h2>
+	<h2 class="text-center text-xl opacity-70">2024 — 42 min 43 s</h2>
+</section>
 
-<div bind:clientWidth={width}>
+<section bind:clientWidth={width}>
 	<svg
 		{width}
 		{height}
@@ -108,10 +131,10 @@
 			{/each}
 		</g>
 	</svg>
-</div>
+</section>
 
 <!-- event categories -->
-<section class="gap-5 flex my-10">
+<section class="flex my-10 gap-5">
 	<div class="join overflow-x-scroll">
 		{#each Object.keys(categories) as category}
 			<button
@@ -120,6 +143,8 @@
 					if (selectedCategory == category) selectedCategory = null;
 					else if (selectedCategory == null || selectedCategory != category)
 						selectedCategory = category;
+
+					hoveredEvent = null;
 				}}
 				class="join-item btn btn-outline cursor-pointer">{category}</button
 			>
@@ -128,7 +153,7 @@
 </section>
 
 {#if selectedCategory}
-	<section class="mt-20">
+	<section class="mt-10">
 		<h2 class="font-semibold text-xl mb-5">
 			<span class="opacity-70">Highlights in relation to</span>
 			<span>{selectedCategory}</span>
@@ -138,14 +163,12 @@
 				<div class="flex flex-row gap-2 hover:cursor-help">
 					<span class="opacity-70 tabular-nums">{i + 1}.</span>
 					<div
-						on:mouseenter={() => {
-							hoveredEvent = event;
-						}}
-						on:mouseleave={() => {
-							hoveredEvent = null;
+						on:click={() => {
+							if (!hoveredEvent || hoveredEvent !== event) hoveredEvent = event;
+							else hoveredEvent = null;
 						}}
 					>
-						<div class="">
+						<div class="category-event-list" class:selected-event={hoveredEvent === event}>
 							{event.title}
 						</div>
 					</div>
@@ -173,7 +196,7 @@
 
 {#if hoveredSong && hoveredSongEvents.length > 0}
 	<section class="mt-10">
-		<h2 class="font-semibold opacity-70 text-xl mb-5">Highlights of the song</h2>
+		<h2 class="font-semibold opacity-70 text-xl mb-3">Highlights of the song</h2>
 		{#each hoveredSongEvents as event, i}
 			<div class="flex flex-row gap-2 hover:cursor-help">
 				<span class="opacity-70 tabular-nums">{i + 1}.</span>
@@ -194,24 +217,26 @@
 	</section>
 {/if}
 
-<section class="mt-10">
+<section class="mt-10 card w-fit bg-base-200 border border-primary/20 shadow-primary/10 shadow-md">
 	{#if hoveredEvent}
-		<h2 class="font-semibold text-xl opacity-70 mb-5">Event Details</h2>
-		<div class="flex flex-col gap-2">
-			<div class="font-bold text-xl">
-				{hoveredEvent.title}
+		<div class="card-body">
+			<h2 class="font-semibold text-lg opacity-70 mb-5 card-title">Event Details</h2>
+			<div class="flex flex-col gap-2">
+				<div class="font-bold text-xl">
+					{hoveredEvent.title}
+				</div>
+				<div>
+					<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
+					{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} •
+					<span class="text-primary">{secondsDisplay(hoveredEvent.secondsIntoSong)}</span>
+				</div>
+				<div class="badge border-primary/20 badge-outline">{hoveredEvent.category}</div>
 			</div>
-			<div>
-				<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
-				{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} •
-				<span class="text-primary">{secondsDisplay(hoveredEvent.secondsIntoSong)}</span>
-			</div>
-			<div class="badge badge-outline">{hoveredEvent.category}</div>
 		</div>
 	{/if}
 </section>
 
-<section class="h-[200px] opacity-0 md:hidden">asdf</section>
+<section class="h-[400px] opacity-0">asdf</section>
 
 <style>
 	.selected {
@@ -250,5 +275,19 @@
 		transition-property: all;
 		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 		transition-duration: 150ms;
+	}
+	.category-event-list {
+		text-decoration: underline;
+		text-decoration-color: oklch(var(--a) / 0.4);
+		text-decoration-style: dotted;
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	}
+	.selected-event {
+		text-decoration: underline;
+		text-decoration-color: oklch(var(--a) / 1);
+		text-decoration-style: line;
+		transition-property: all;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	}
 </style>
