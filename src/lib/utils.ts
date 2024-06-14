@@ -72,12 +72,14 @@ export function relativeToAbsoluteSeconds({
 	secondsIntoSong: number;
 	padding: number;
 }) {
-	const { songs } = album;
+	const { songs, duration: albumDuration } = album;
 
 	let shiftToSong = 0;
-	let relativePadding = padding / album.duration;
+	let factor = padding / albumDuration;
+
 	for (let i = 0; i < songIndex - 1; i++) {
-		shiftToSong += songs[i].duration + relativePadding * 2;
+		let relativeSongDuration = songs[i].duration / albumDuration;
+		shiftToSong += songs[i].duration;
 	}
 
 	return shiftToSong + secondsIntoSong;

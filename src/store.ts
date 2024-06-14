@@ -1,3 +1,3 @@
 import { readable } from 'svelte/store';
 
-export const padding = 10;
+export const padding = 5;

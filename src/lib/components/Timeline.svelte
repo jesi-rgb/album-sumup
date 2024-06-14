@@ -134,7 +134,7 @@
 </section>
 
 <!-- event categories -->
-<section class="flex my-10 gap-5">
+<section class="flex my-10 mx-auto w-fit">
 	<div class="join overflow-x-scroll">
 		{#each Object.keys(categories) as category}
 			<button
@@ -152,87 +152,96 @@
 	</div>
 </section>
 
-{#if selectedCategory}
-	<section class="mt-10">
-		<h2 class="font-semibold text-xl mb-5">
-			<span class="opacity-70">Highlights in relation to</span>
-			<span>{selectedCategory}</span>
-		</h2>
-		<div transition:fly={{ duration: 120, x: -20 }} class="flex flex-col gap-5">
-			{#each displayEvents as event, i}
-				<div class="flex flex-row gap-2 hover:cursor-help">
-					<span class="opacity-70 tabular-nums">{i + 1}.</span>
-					<div
-						on:click={() => {
-							if (!hoveredEvent || hoveredEvent !== event) hoveredEvent = event;
-							else hoveredEvent = null;
-						}}
-					>
-						<div class="category-event-list" class:selected-event={hoveredEvent === event}>
-							{event.title}
+<div class="divider" />
+
+<section class="flex justify-between">
+	<div>
+		{#if selectedCategory}
+			<section class="mt-10">
+				<h2 class="font-semibold text-xl mb-5">
+					<span class="opacity-70">Highlights in relation to</span>
+					<span>{selectedCategory}</span>
+				</h2>
+				<div transition:fly={{ duration: 120, x: -20 }} class="flex flex-col gap-5">
+					{#each displayEvents as event, i}
+						<div class="flex flex-row gap-2 hover:cursor-help">
+							<span class="opacity-70 tabular-nums">{i + 1}.</span>
+							<div
+								on:click={() => {
+									if (!hoveredEvent || hoveredEvent !== event) hoveredEvent = event;
+									else hoveredEvent = null;
+								}}
+							>
+								<div class="category-event-list" class:selected-event={hoveredEvent === event}>
+									{event.title}
+								</div>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<section class="mt-10">
+			{#if hoveredSong}
+				<div>
+					<div in:fly={{ duration: 150, x: -20 }} class="font-bold text-xl">
+						{hoveredSong.title}
+					</div>
+					<div class="">
+						<span class="text-primary tabular-nums">{secondsDisplay(hoveredSong.duration)}</span> •
+						<span class="opacity-70">
+							{hoveredSong.artist}
+						</span>
+					</div>
+				</div>
+			{/if}
+		</section>
+
+		{#if hoveredSong && hoveredSongEvents.length > 0}
+			<section class="mt-10">
+				<h2 class="font-semibold opacity-70 text-xl mb-3">Highlights of the song</h2>
+				{#each hoveredSongEvents as event, i}
+					<div class="flex flex-row gap-2 hover:cursor-help">
+						<span class="opacity-70 tabular-nums">{i + 1}.</span>
+						<div
+							on:mouseenter={() => {
+								hoveredEvent = event;
+							}}
+							on:mouseleave={() => {
+								hoveredEvent = null;
+							}}
+						>
+							<div class="">
+								{event.title}
+							</div>
 						</div>
 					</div>
-				</div>
-			{/each}
-		</div>
-	</section>
-{/if}
+				{/each}
+			</section>
+		{/if}
+	</div>
 
-<section class="mt-10">
-	{#if hoveredSong}
-		<div>
-			<div in:fly={{ duration: 150, x: -20 }} class="font-bold text-xl">
-				{hoveredSong.title}
-			</div>
-			<div class="">
-				<span class="text-primary tabular-nums">{secondsDisplay(hoveredSong.duration)}</span> •
-				<span class="opacity-70">
-					{hoveredSong.artist}
-				</span>
-			</div>
-		</div>
-	{/if}
-</section>
-
-{#if hoveredSong && hoveredSongEvents.length > 0}
-	<section class="mt-10">
-		<h2 class="font-semibold opacity-70 text-xl mb-3">Highlights of the song</h2>
-		{#each hoveredSongEvents as event, i}
-			<div class="flex flex-row gap-2 hover:cursor-help">
-				<span class="opacity-70 tabular-nums">{i + 1}.</span>
-				<div
-					on:mouseenter={() => {
-						hoveredEvent = event;
-					}}
-					on:mouseleave={() => {
-						hoveredEvent = null;
-					}}
-				>
-					<div class="">
-						{event.title}
-					</div>
-				</div>
-			</div>
-		{/each}
-	</section>
-{/if}
-
-<section class="mt-10 card w-fit bg-base-200 border border-primary/20 shadow-primary/10 shadow-md">
 	{#if hoveredEvent}
-		<div class="card-body">
-			<h2 class="font-semibold text-lg opacity-70 mb-5 card-title">Event Details</h2>
-			<div class="flex flex-col gap-2">
-				<div class="font-bold text-xl">
-					{hoveredEvent.title}
+		<section
+			transition:fly={{ x: 20, duration: 150 }}
+			class="mt-10 card w-fit bg-base-200 border border-primary/20 shadow-primary/10 shadow-md h-fit"
+		>
+			<div class="card-body">
+				<h2 class="font-semibold text-lg opacity-70 mb-5 card-title">Event Details</h2>
+				<div class="flex flex-col gap-2">
+					<div class="font-bold text-xl">
+						{hoveredEvent.title}
+					</div>
+					<div>
+						<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
+						{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} •
+						<span class="text-primary">{secondsDisplay(hoveredEvent.secondsIntoSong)}</span>
+					</div>
+					<div class="badge border-primary/20 badge-outline">{hoveredEvent.category}</div>
 				</div>
-				<div>
-					<span class="opacity-70">Song {hoveredEvent.songIndex}:</span>
-					{grasaAlbum.songs[hoveredEvent.songIndex - 1].title} •
-					<span class="text-primary">{secondsDisplay(hoveredEvent.secondsIntoSong)}</span>
-				</div>
-				<div class="badge border-primary/20 badge-outline">{hoveredEvent.category}</div>
 			</div>
-		</div>
+		</section>
 	{/if}
 </section>
 
